@@ -12,10 +12,10 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 //@SessionScoped
 public class KredytBB {
-	private String a;
-	private String b;
+	private String a; //wartosc kredytu	
+	private String b; //oprocentowanie
 	private Double result;
-	private String n;
+	private String n; // ilosc rat w miseiacach
 	private Double x;
 	private Double q;
 	
@@ -44,9 +44,6 @@ public class KredytBB {
 		return result;
 	}
 
-	public void setResult(Double result) {
-		this.result = result;
-	}
 
 	public String getN() {
 		return n;
@@ -72,7 +69,7 @@ public class KredytBB {
 			return true;
 		} catch (Exception e) {
 			ctx.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "BÅ‚Ä…d podczas przetwarzania parametrÃ³w", null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "B³¹d podczas przetwarzania parametrów", null));
 			return false;
 		}
 	}
@@ -84,6 +81,14 @@ public class KredytBB {
 	public String calc() {
 		if (doTheMath()) {
 			return "showresult";
+		}
+		return null;
+	}
+	
+	// Put result in messages on AJAX call
+	public String calc_AJAX() {
+		if (doTheMath()) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Wynik: " + result, null));
 		}
 		return null;
 	}
