@@ -12,12 +12,16 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 //@SessionScoped
 public class KredytBB {
-	private String a; //wartosc kredytu	
+	private String a; //wartosc kredytu
+	private double numer_a =0;
 	private String b; //oprocentowanie
+	private double numer_b =0;
 	private Double result;
 	private String n; // ilosc rat w miseiacach
+	private double numer_n =0;
 	private Double x;
 	private Double q;
+	
 	
 	@Inject
 	FacesContext ctx;
@@ -30,7 +34,12 @@ public class KredytBB {
 
 	public void setA(String a) {
 		this.a = a;
-	}
+			try {
+				numer_a = Double.parseDouble(a);
+			} catch(NumberFormatException nfe)
+			{}
+		}
+
 
 	public String getB() {
 		return b;
@@ -38,6 +47,10 @@ public class KredytBB {
 
 	public void setB(String b) {
 		this.b = b;
+		try {
+			numer_b = Double.parseDouble(b);
+		} catch(NumberFormatException nfe)
+		{}
 	}
 
 	public Double getResult() {
@@ -51,46 +64,34 @@ public class KredytBB {
 
 	public void setN(String n) {
 		this.n = n;
-	}
-
-	public boolean doTheMath() {
 		try {
-			double a = Double.parseDouble(this.a);
-			double b = Double.parseDouble(this.b);
-			double n = Double.parseDouble(this.n);
-			
-			b = b/100;
-			q = 1+(b/12);
-			x = pow(q,n);
-			
-			result = ((a*(x)*(q-1))/((x)-1))*n ;
+			numer_n = Double.parseDouble(n);
+		} catch(NumberFormatException nfe)
+		{}
+	}
 
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operacja wykonana poprawnie", null));
-			return true;
-		} catch (Exception e) {
-			ctx.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "B³¹d podczas przetwarzania parametrów", null));
-			return false;
-		}
+	private void doTheMath() {
+		
+
+			
+			numer_b = numer_b/100;
+			q = 1+(numer_b/12);
+			x = pow(q,numer_n);
+			
+			result = ((numer_a*(x)*(q-1))/((x)-1))*numer_n ;
 	}
 
 
-
-
-	// Go to "showresult" if ok
-	public String calc() {
-		if (doTheMath()) {
-			return "showresult";
-		}
-		return null;
+	public String doCalc() {
+		doTheMath(); 
+			return ("showresult");
 	}
 	
-	// Put result in messages on AJAX call
-	public String calc_AJAX() {
-		if (doTheMath()) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Wynik: " + result, null));
-		}
-		return null;
-	}
+	/*
+	 * // Put result in messages on AJAX call public String calc_AJAX() { if
+	 * (doTheMath()) { ctx.addMessage(null, new
+	 * FacesMessage(FacesMessage.SEVERITY_INFO, "Wynik: " + result, null)); } return
+	 * null; }
+	 */
 
 }

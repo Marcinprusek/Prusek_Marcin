@@ -14,26 +14,36 @@
 	<p:panel header="Oblicz wartość kredytu" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500"  style="margin: 1em auto; ">
 
 	<h:form id="bla">
+		<h:messages styleClass="error"/>
+		
 		<h:panelGrid id="grid" columns="3" cellpadding="5">
-		<p:outputLabel for="a" value="Wartosc kredytu:" />
-  		<p:inputText id="a" value="#{kredytBB.a}" required="a" requiredmessage="Brak eks" />
+			<p:outputLabel for="a" value="Wartosc kredytu:" />
+  			<p:inputText id="a" value="#{kredytBB.a}" 
+  				required="true"
+  				requiredMessage="Musisz wpisac numer" 
+  				validatorMessage="Wysokość kredytu musi być większa od 10000"
+  				converterMessage="Musisz wpisać liczbę">
+  				<f:validateDoubleRange minimum="10000"/>
+  			</p:inputText>
+			
+			
 		<p:message for="a" />
 		
 		<p:outputLabel for="b" value="Oprocentowanie (np. 2.5):" />
-  		<p:inputText id="b" value="#{kredytBB.b}" required="b" requiredmessage="Brak yks" />
+  		<p:inputText id="b" value="#{kredytBB.b}" required="true" requiredMessage="Musisz wpisac numer" />
 		<p:message for="b" />
 
 		<p:outputLabel for="n" value="Ilosc rat (w miesiącach):" />
-  		<p:inputText id="n" value="#{kredytBB.n}" required="n" requiredmessage="Brak nyks" />
+  		<p:inputText id="n" value="#{kredytBB.n}" required="true" requiredMessage="Musisz wpisac numer" />
 		<p:message for="n" />
 		
 		
 		
 		<p:growl id="msg" showDetail="true" sticky="true" />
 
-		<p:commandButton value="Dodaj" action="#{kredytBB.calc()}" update="@form" />
+		<p:commandButton value="Dodaj" action="#{kredytBB.doCalc()}" update="@form" />
 		
-		<p:commandButton value="Dodaj AJAX" action="#{kredytBB.calc_AJAX()}" update="msg"/>
+		<p:commandButton value="Dodaj AJAX" action="#{kredytBB.doCalc_AJAX()}" update="msg"/>
 		<br />
     </h:panelGrid>
 	</h:form>
