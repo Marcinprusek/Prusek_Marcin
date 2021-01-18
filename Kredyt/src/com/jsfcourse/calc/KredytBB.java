@@ -1,12 +1,12 @@
 package com.jsfcourse.calc;
 
 import javax.inject.Inject;
-import static java.lang.Math.*;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import static java.lang.Math.*;
+
 
 @Named
 @RequestScoped
@@ -72,8 +72,6 @@ public class KredytBB {
 
 	private void doTheMath() {
 		
-
-			
 			numer_b = numer_b/100;
 			q = 1+(numer_b/12);
 			x = pow(q,numer_n);
@@ -84,7 +82,7 @@ public class KredytBB {
 
 	public String doCalc() {
 		doTheMath(); 
-			return ("showresult");
+		return ("showresult");
 	}
 	
 	/*
